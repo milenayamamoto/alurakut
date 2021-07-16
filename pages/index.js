@@ -33,6 +33,40 @@ function ProfileSidebar(prop) {
 function Relations(props) {
   const { title, options } = props
 
+  const renderRows = itemAtual => {
+    switch (title) {
+      case 'Comunidades':
+        return (
+          <span>
+            <a href={itemAtual.url} key={itemAtual}>
+              {itemAtual.image ? (
+                <img src={itemAtual.image} />
+              ) : (
+                <img src='https://picsum.photos/300' />
+              )}
+              <span>{itemAtual.title}</span>
+            </a>
+          </span>
+        )
+
+      case 'Pessoas da Comunidade':
+        return (
+          <a href={`/users/${itemAtual}`} key={itemAtual}>
+            <img src={`https://github.com/${itemAtual}.png`} />
+            <span>{itemAtual}</span>
+          </a>
+        )
+
+      case 'Seguidores':
+        return (
+          <a href={`https://github.com/${itemAtual.login}`}>
+            <img src={itemAtual.avatar_url} />
+            <span>{itemAtual.login}</span>
+          </a>
+        )
+    }
+  }
+
   return (
     <>
       <h2 className='smallTitle'>
@@ -40,25 +74,7 @@ function Relations(props) {
       </h2>
       <ul>
         {options.slice(0, 6).map(itemAtual => {
-          return (
-            <li>
-              {title === 'Comunidades' ? (
-                <a href={itemAtual.url} key={itemAtual}>
-                  {itemAtual.image ? (
-                    <img src={itemAtual.image} />
-                  ) : (
-                    <img src='https://picsum.photos/300' />
-                  )}
-                  <span>{itemAtual.title}</span>
-                </a>
-              ) : (
-                <a href={`/users/${itemAtual}`} key={itemAtual}>
-                  <img src={`https://github.com/${itemAtual}.png`} />
-                  <span>{itemAtual}</span>
-                </a>
-              )}
-            </li>
-          )
+          return <li key={itemAtual}>{renderRows(itemAtual)}</li>
         })}
       </ul>
     </>
@@ -82,13 +98,25 @@ export default function Home() {
     'juunegreiros'
   ]
 
+  const [seguidores, setSeguidores] = React.useState([])
+
+  React.useEffect(function () {
+    fetch('https://api.github.com/users/milenayamamoto/followers')
+      .then(function (respostaDoServidor) {
+        return respostaDoServidor.json()
+      })
+      .then(function (respostaCompleta) {
+        setSeguidores(respostaCompleta)
+      })
+  }, [])
+
   const handleCreateCommunity = event => {
     event.preventDefault()
     const formData = new FormData(event.target)
 
     const comunidade = {
       id: new Date().toISOString(),
-      title: formData.get('title'),
+      name: formData.get('title'),
       image: formData.get('image'),
       url: formData.get('url')
     }
@@ -141,6 +169,10 @@ export default function Home() {
           className='profileRelationsArea'
           style={{ gridArea: 'profileRelationsArea' }}
         >
+          <ProfileRelationsBoxWrapper>
+            <Relations title='Seguidores' options={seguidores} />
+          </ProfileRelationsBoxWrapper>
+
           <ProfileRelationsBoxWrapper>
             <Relations title='Comunidades' options={comunidades} />
           </ProfileRelationsBoxWrapper>
