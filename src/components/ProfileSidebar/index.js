@@ -1,5 +1,5 @@
 import Box from '../Box'
-import { AlurakutProfileSidebarMenuDefault } from '../../../src/lib/AlurakutCommons'
+import { AlurakutProfileSidebarMenuDefault } from '../../lib/AlurakutCommons'
 
 export function ProfileSidebar(prop) {
   const { githubUser } = prop
