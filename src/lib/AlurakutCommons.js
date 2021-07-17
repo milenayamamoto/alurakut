@@ -36,7 +36,9 @@ export function AlurakutMenu({ githubUser }) {
         <nav style={{ flex: 1 }}>
           {[
             { name: 'Inicio', slug: '/' },
-            { name: 'Amigos', slug: '/amigos' },
+            { name: 'Perfil', slug: '/perfil' },
+            { name: 'Página de Recados', slug: '/scraps' },
+            { name: 'Amigos', slug: '/friends' },
             { name: 'Comunidades', slug: '/comunidades' }
           ].map(menuItem => (
             <Link
@@ -49,6 +51,9 @@ export function AlurakutMenu({ githubUser }) {
         </nav>
 
         <nav>
+          <a href='#' className='menuUser'>
+            {githubUser}
+          </a>
           <a href='#' onClick={handleLogout}>
             Sair
           </a>
@@ -133,6 +138,15 @@ AlurakutMenu.Wrapper = styled.header`
     justify-content: space-between;
     position: relative;
     z-index: 101;
+
+    .menuUser {
+      font-family: Verdana;
+      font-style: normal;
+      font-weight: bold;
+      font-size: 14px;
+      line-height: 17px;
+      color: #2f4a71;
+    }
 
     @media (min-width: 860px) {
       justify-content: flex-start;
@@ -349,7 +363,6 @@ export function OrkutNostalgicIconSet(props) {
   )
 }
 OrkutNostalgicIconSet.List = styled.ul`
-  margin-top: 32px;
   list-style: none;
   display: flex;
   justify-content: space-between;

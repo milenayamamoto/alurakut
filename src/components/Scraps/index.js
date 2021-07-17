@@ -1,6 +1,7 @@
 import React from 'react'
 
-export function Scraps() {
+export function Scraps(props) {
+  const { comunidades, onChange } = props
   const [active, setActive] = React.useState('scrap')
 
   const handleChange = type => () => {
@@ -23,7 +24,7 @@ export function Scraps() {
     }).then(async res => {
       const data = await res.json()
       const comunidade = data.registroCriado
-      setComunidades([...comunidades, comunidade])
+      onChange([...comunidades, comunidade])
     })
   }
 

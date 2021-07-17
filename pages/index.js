@@ -76,8 +76,18 @@ export default function Home(props) {
         <div className='welcomeArea' style={{ gridArea: 'welcomeArea' }}>
           <Box className='welcomeBox'>
             <h1 className='title'>Bem vindo(a), {githubUser}</h1>
-            <Scraps />
+            <Scraps comunidades={comunidades} onChange={setComunidades} />
+            <hr style={{ marginTop: '16px' }} />
             <OrkutNostalgicIconSet />
+            <hr style={{ marginBottom: '16px' }}  />
+            <div className='updates'>
+              <span>
+                <b>Seus visitantes recentes: </b> nenhum
+              </span>
+              <span>
+                <b>Sorte de hoje: </b> O melhor profeta do futuro é o passado.
+              </span>
+            </div>
           </Box>
         </div>
         <div

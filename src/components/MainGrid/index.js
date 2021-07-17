@@ -15,46 +15,55 @@ const MainGrid = styled.main`
   }
   .welcomeBox {
     border-top-right-radius: 50px;
-  }
-  .actions {
-    .actionButttons {
-      display: flex;
-      gap: 8px;
-    }
-    .actionsButton {
-      padding: 2px 12px;
-      background: #fff;
-      color: #6f92bb;
-      border: 1px solid #f4f4f4;
-      border-radius: 8px 8px 0px 0px;
-    }
-    .active {
-      padding: 2px 12px;
-      background: #6f92bb;
-      border: 1px solid #f4f4f4;
-      border-radius: 8px 8px 0px 0px;
-      color: #fff;
-    }
-    .scrapBox {
-      border: 1px solid #f4f4f4;
-      height: 40px;
-      position: relative;
-
-      .inputScrap {
-        background-color: inherit;
-        color: #5a5a5a;
-        border-radius: 0;
+    .actions {
+      .actionButttons {
+        display: flex;
+        gap: 8px;
+      }
+      .actionsButton {
+        padding: 2px 12px;
+        background: #fff;
+        color: #6f92bb;
+        border: 1px solid #f4f4f4;
+        border-radius: 8px 8px 0px 0px;
+      }
+      .active {
+        padding: 2px 12px;
+        background: #6f92bb;
+        border: 1px solid #f4f4f4;
+        border-radius: 8px 8px 0px 0px;
+        color: #fff;
+      }
+      .scrapBox {
+        border: 1px solid #f4f4f4;
         height: 40px;
+        position: relative;
+
+        .inputScrap {
+          background-color: inherit;
+          color: #5a5a5a;
+          border-radius: 0;
+          height: 40px;
+        }
+        .addScrap {
+          position: absolute;
+          left: 450px;
+          top: 9px;
+        }
       }
-      .addScrap {
-        position: absolute;
-        left: 450px;
-        top: 9px;
+      .communityBox {
+        border: 1px solid #f4f4f4;
+        padding: 15px;
       }
     }
-    .communityBox {
-      border: 1px solid #f4f4f4;
-      padding: 15px;
+    .updates {
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+      font-family: Verdana;
+      font-style: normal;
+      font-size: 12px;
+      line-height: 15px;
     }
   }
   .orkutButton {
