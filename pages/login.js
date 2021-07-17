@@ -5,7 +5,7 @@ import nookies from 'nookies'
 
 export default function LoginScreen() {
   const router = useRouter()
-  const [githubUser, setGithubUser] = React.useState('omariosouto')
+  const [githubUser, setGithubUser] = React.useState('')
 
   const handleSubmit = event => {
     event.preventDefault()
@@ -29,7 +29,7 @@ export default function LoginScreen() {
   }
 
   const handleChange = event => {
-    const { value } = event.taget
+    const { value } = event.target
     setGithubUser(value)
   }
 
@@ -69,8 +69,13 @@ export default function LoginScreen() {
               placeholder='Usuário'
               value={githubUser}
               onChange={handleChange}
+              className='input-user'
             />
-            {githubUser.length === 0 ? 'Preencha o campo' : ''}
+            {githubUser.length === 0 ? (
+              <span className='error'>Preencha o campo</span>
+            ) : (
+              ''
+            )}
             <button type='submit'>Login</button>
           </form>
 

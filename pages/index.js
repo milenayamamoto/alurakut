@@ -3,34 +3,10 @@ import nookies from 'nookies'
 import jwt from 'jsonwebtoken'
 import MainGrid from '../src/components/MainGrid'
 import Box from '../src/components/Box'
-import {
-  AlurakutMenu,
-  AlurakutProfileSidebarMenuDefault,
-  OrkutNostalgicIconSet
-} from '../src/lib/AlurakutCommons'
+import { AlurakutMenu, OrkutNostalgicIconSet } from '../src/lib/AlurakutCommons'
 import { ProfileRelationsBoxWrapper } from '../src/components/ProfileRelations'
-
-function ProfileSidebar(prop) {
-  const { githubUser } = prop
-
-  return (
-    <Box as='aside'>
-      <img
-        src={`https://github.com/${githubUser}.png`}
-        style={{ borderRadius: '8px' }}
-      />
-      <hr />
-      <p>
-        <a className='boxLink' href={`https://github.com/${githubUser}`}>
-          @{githubUser}
-        </a>
-      </p>
-      <hr />
-
-      <AlurakutProfileSidebarMenuDefault />
-    </Box>
-  )
-}
+import { ProfileSidebar } from '../src/components/ProfileSidebar'
+import { useRouter } from 'next/router'
 
 function Relations(props) {
   const { title, options } = props
@@ -40,6 +16,7 @@ function Relations(props) {
       case 'Comunidades':
         return (
           <span>
+            {/* If imageUrl is empty, provides a random image */}
             <a href={itemAtual.id} key={itemAtual}>
               {itemAtual.imageUrl ? (
                 <img src={itemAtual.imageUrl} />
@@ -51,19 +28,11 @@ function Relations(props) {
           </span>
         )
 
-      case 'Pessoas da Comunidade':
+      case 'Pokémons':
         return (
-          <a href={`/users/${itemAtual}`} key={itemAtual}>
-            <img src={`https://github.com/${itemAtual}.png`} />
-            <span>{itemAtual}</span>
-          </a>
-        )
-
-      case 'Seguidores':
-        return (
-          <a href={`https://github.com/${itemAtual.login}`}>
-            <img src={itemAtual.avatar_url} />
-            <span>{itemAtual.login}</span>
+          <a href={`/pokemon/${itemAtual.id}`} key={itemAtual.id}>
+            <img src={itemAtual.imageUrl} />
+            <span>{itemAtual.name}</span>
           </a>
         )
     }
@@ -72,13 +41,16 @@ function Relations(props) {
   return (
     <>
       <h2 className='smallTitle'>
-        {title} ({options.length})
+        {title} <a href='#'>({options?.length})</a>
       </h2>
       <ul>
         {options.slice(0, 6).map(itemAtual => {
           return <li key={itemAtual}>{renderRows(itemAtual)}</li>
         })}
       </ul>
+      <a href='#' className='seeMore'>
+        ver todos
+      </a>
     </>
   )
 }
@@ -86,24 +58,16 @@ function Relations(props) {
 export default function Home(props) {
   const githubUser = props.githubUser
 
+  const router = useRouter()
+
   const [comunidades, setComunidades] = React.useState([])
-
-  const pessoasFavoritas = [
-    'peas',
-    'omariosouto',
-    'marcobrunodev',
-    'juunegreiros'
-  ]
-
-  const [seguidores, setSeguidores] = React.useState([])
+  const [pokemons, setPokemons] = React.useState([])
 
   React.useEffect(function () {
-    //Get followers
-    fetch('https://api.github.com/users/milenayamamoto/followers')
-      .then(respostaDoServidor => respostaDoServidor.json())
-      .then(respostaCompleta => setSeguidores(respostaCompleta))
+    //Redirect to login page if there's no githubUser
+    if (!githubUser.length > 0) return router.push('/login')
 
-    //APi GraphQL: Communities
+    //Get Communities
     fetch('https://graphql.datocms.com/', {
       method: 'POST',
       headers: {
@@ -119,11 +83,32 @@ export default function Home(props) {
         creatorSlug
       } }`
       })
+    }).then(async res => {
+      const getCommunities = await res.json()
+      const comunidade = getCommunities.data.allCommunities
+      setComunidades(comunidade)
+    })
+
+    //Get Pokemons
+    fetch('https://graphql.datocms.com/', {
+      method: 'POST',
+      headers: {
+        Authorization: '187143b7a807b4793b0a303090e947',
+        'Content-Type': 'application/json',
+        Accept: 'application/json'
+      },
+      body: JSON.stringify({
+        query: `query { allPokemons {
+          id
+          name
+          imageUrl
+        } }`
+      })
     })
       .then(res => res.json())
       .then(respostaCompleta => {
-        const data = respostaCompleta.data.allCommunities
-        setComunidades(data)
+        const data = respostaCompleta.data.allPokemons
+        setPokemons(data)
       })
   }, [])
 
@@ -157,7 +142,7 @@ export default function Home(props) {
         </div>
         <div className='welcomeArea' style={{ gridArea: 'welcomeArea' }}>
           <Box>
-            <h1 className='title'>Bem vindo(a)</h1>
+            <h1 className='title'>Bem vindo(a), {githubUser}</h1>
             <OrkutNostalgicIconSet />
           </Box>
           <Box>
@@ -187,18 +172,11 @@ export default function Home(props) {
           style={{ gridArea: 'profileRelationsArea' }}
         >
           <ProfileRelationsBoxWrapper>
-            <Relations title='Seguidores' options={seguidores} />
+            <Relations title='Pokémons' options={pokemons} />
           </ProfileRelationsBoxWrapper>
 
           <ProfileRelationsBoxWrapper>
             <Relations title='Comunidades' options={comunidades} />
-          </ProfileRelationsBoxWrapper>
-
-          <ProfileRelationsBoxWrapper>
-            <Relations
-              title='Pessoas da Comunidade'
-              options={pessoasFavoritas}
-            />
           </ProfileRelationsBoxWrapper>
         </div>
       </MainGrid>
@@ -214,7 +192,6 @@ export async function getServerSideProps(context) {
     { headers: { Authorization: token } }
   ).then(res => res.json())
 
-  console.log('isAuthenticated', isAuthenticated)
   if (!isAuthenticated) {
     return {
       redirect: {

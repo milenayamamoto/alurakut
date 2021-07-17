@@ -20,6 +20,7 @@ function Link({ href, children, ...props }) {
 // ================================================================================================================
 export function AlurakutMenu({ githubUser }) {
   const [isMenuOpen, setMenuState] = React.useState(false)
+
   const router = useRouter()
 
   const handleLogout = () => {
@@ -69,7 +70,13 @@ export function AlurakutMenu({ githubUser }) {
 }
 AlurakutMenu.Wrapper = styled.header`
   width: 100%;
-  background-color: #308bc5;
+  background: linear-gradient(
+    180deg,
+    #308bc5 0%,
+    #5c9ecf 30.21%,
+    #5c9ecf 68.23%,
+    #308bc5 100%
+  );
 
   .alurakutMenuProfileSidebar {
     background: white;
@@ -112,7 +119,13 @@ AlurakutMenu.Wrapper = styled.header`
   }
 
   .container {
-    background-color: #308bc5;
+    background: linear-gradient(
+      180deg,
+      #308bc5 0%,
+      #5c9ecf 30.21%,
+      #5c9ecf 68.23%,
+      #308bc5 100%
+    );
     padding: 7px 16px;
     max-width: 1110px;
     margin: auto;
@@ -120,6 +133,7 @@ AlurakutMenu.Wrapper = styled.header`
     justify-content: space-between;
     position: relative;
     z-index: 101;
+
     @media (min-width: 860px) {
       justify-content: flex-start;
     }
@@ -209,6 +223,13 @@ function AlurakutMenuProfileSidebar({ githubUser }) {
 // AlurakutProfileSidebarMenuDefault
 // ================================================================================================================
 export function AlurakutProfileSidebarMenuDefault() {
+  const router = useRouter()
+
+  const handleLogout = () => {
+    nookies.destroy(null, 'USER_TOKEN')
+    router.push('/login')
+  }
+
   return (
     <AlurakutProfileSidebarMenuDefault.Wrapper>
       <nav>
@@ -235,7 +256,7 @@ export function AlurakutProfileSidebarMenuDefault() {
           <img src={`${BASE_URL}/icons/plus.svg`} />
           GitHub Trends
         </a>
-        <a href='/logout'>
+        <a href='#' onClick={handleLogout}>
           <img src={`${BASE_URL}//icons/logout.svg`} />
           Sair
         </a>
@@ -480,6 +501,13 @@ const AlurakutLoginScreen = css`
           background-color: var(--colorPrimary);
           color: var(--textSecondaryColor);
         }
+      }
+      .input-user {
+        margin-bottom: 24px;
+      }
+      .error {
+        font-size: small;
+        color: #ff6347;
       }
     }
     .footerArea {
