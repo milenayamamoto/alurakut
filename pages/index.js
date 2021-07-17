@@ -1,4 +1,6 @@
 import React from 'react'
+import nookies from 'nookies'
+import jwt from 'jsonwebtoken'
 import MainGrid from '../src/components/MainGrid'
 import Box from '../src/components/Box'
 import {
@@ -81,9 +83,11 @@ function Relations(props) {
   )
 }
 
-export default function Home() {
-  const githubUser = 'milenayamamoto'
+export default function Home(props) {
+  const githubUser = props.githubUser
+
   const [comunidades, setComunidades] = React.useState([])
+
   const pessoasFavoritas = [
     'peas',
     'omariosouto',
@@ -200,4 +204,31 @@ export default function Home() {
       </MainGrid>
     </>
   )
+}
+
+export async function getServerSideProps(context) {
+  const token = nookies.get(context)?.USER_TOKEN
+
+  const { isAuthenticated } = await fetch(
+    'https://alurakut.vercel.app/api/auth',
+    { headers: { Authorization: token } }
+  ).then(res => res.json())
+
+  console.log('isAuthenticated', isAuthenticated)
+  if (!isAuthenticated) {
+    return {
+      redirect: {
+        destination: '/login',
+        permanent: false
+      }
+    }
+  }
+
+  const { githubUser } = jwt.decode(token)
+
+  return {
+    props: {
+      githubUser
+    }
+  }
 }
