@@ -38,9 +38,9 @@ function Relations(props) {
       case 'Comunidades':
         return (
           <span>
-            <a href={itemAtual.url} key={itemAtual}>
-              {itemAtual.image ? (
-                <img src={itemAtual.image} />
+            <a href={itemAtual.id} key={itemAtual}>
+              {itemAtual.imageUrl ? (
+                <img src={itemAtual.imageUrl} />
               ) : (
                 <img src='https://picsum.photos/300' />
               )}
@@ -83,14 +83,7 @@ function Relations(props) {
 
 export default function Home() {
   const githubUser = 'milenayamamoto'
-  const [comunidades, setComunidades] = React.useState([
-    {
-      id: '2353654645457',
-      title: 'Eu odeio acordar cedo',
-      image: 'https://alurakut.vercel.app/capa-comunidade-01.jpg',
-      url: 'http://google.com.br'
-    }
-  ])
+  const [comunidades, setComunidades] = React.useState([])
   const pessoasFavoritas = [
     'peas',
     'omariosouto',
@@ -101,12 +94,32 @@ export default function Home() {
   const [seguidores, setSeguidores] = React.useState([])
 
   React.useEffect(function () {
+    //Get followers
     fetch('https://api.github.com/users/milenayamamoto/followers')
-      .then(function (respostaDoServidor) {
-        return respostaDoServidor.json()
+      .then(respostaDoServidor => respostaDoServidor.json())
+      .then(respostaCompleta => setSeguidores(respostaCompleta))
+
+    //APi GraphQL: Communities
+    fetch('https://graphql.datocms.com/', {
+      method: 'POST',
+      headers: {
+        Authorization: '187143b7a807b4793b0a303090e947',
+        'Content-Type': 'application/json',
+        Accept: 'application/json'
+      },
+      body: JSON.stringify({
+        query: `query { allCommunities {
+        id
+        title
+        imageUrl
+        creatorSlug
+      } }`
       })
-      .then(function (respostaCompleta) {
-        setSeguidores(respostaCompleta)
+    })
+      .then(res => res.json())
+      .then(respostaCompleta => {
+        const data = respostaCompleta.data.allCommunities
+        setComunidades(data)
       })
   }, [])
 
@@ -115,13 +128,20 @@ export default function Home() {
     const formData = new FormData(event.target)
 
     const comunidade = {
-      id: new Date().toISOString(),
-      name: formData.get('title'),
-      image: formData.get('image'),
-      url: formData.get('url')
+      title: formData.get('title'),
+      imageUrl: formData.get('image'),
+      creatorSlug: githubUser
     }
 
-    setComunidades([...comunidades, comunidade])
+    fetch('/api/comunidades', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(comunidade)
+    }).then(async res => {
+      const data = await res.json()
+      const comunidade = data.registroCriado
+      setComunidades([...comunidades, comunidade])
+    })
   }
 
   return (
@@ -152,13 +172,6 @@ export default function Home() {
                   name='image'
                   placeholder='Coloque uma URL para usarmos de capa'
                   aria-label='Coloque uma URL para usarmos de capa'
-                />
-              </div>
-              <div>
-                <input
-                  name='url'
-                  placeholder='Coloque a URL da comunidade'
-                  aria-label='Coloque a URL da comunidade'
                 />
               </div>
               <button>Criar comunidade</button>
