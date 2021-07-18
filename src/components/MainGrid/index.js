@@ -67,6 +67,46 @@ const MainGrid = styled.main`
       line-height: 15px;
     }
   }
+  .scrapsBox {
+    color: #333333;
+    ul {
+      margin-top: 13px;
+      li {
+        height: 124px;
+        list-style-type: none;
+        display: flex;
+        padding: 15px 10px;
+        :nth-child(odd) {
+          background: #d9e6f6;
+        }
+        :nth-child(even) {
+          background: #f1f9fe;
+        }
+        .scrapInfo {
+          font-family: Verdana;
+          font-style: normal;
+          font-weight: normal;
+          font-size: 14px;
+          line-height: 17px;
+          display: flex;
+          flex-direction: column;
+          gap: 10px;
+          h2 {
+            font-size: 16px;
+            color: #2e7bb4;
+          }
+          .scrapCreated {
+            color: #333333;
+          }
+        }
+      }
+      img {
+        width: 95px;
+        height: 95px;
+        margin-right: 25px;
+      }
+    }
+  }
   .orkutButton {
     display: flex;
     align-items: center;

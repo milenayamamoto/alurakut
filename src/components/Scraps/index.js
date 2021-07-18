@@ -1,78 +1,64 @@
 import React from 'react'
 
-export function Scraps(props) {
-  const { comunidades, onChange } = props
-  const [active, setActive] = React.useState('scrap')
+export function Scraps() {
+  const [scraps, setScraps] = React.useState([])
 
-  const handleChange = type => () => {
-    setActive(type)
-  }
-
-  const handleCreateCommunity = event => {
-    event.preventDefault()
-    const formData = new FormData(event.target)
-
-    const comunidade = {
-      title: formData.get('title'),
-      imageUrl: formData.get('image')
-    }
-
-    fetch('/api/comunidades', {
+  React.useEffect(function () {
+    //Get Scraps
+    fetch('https://graphql.datocms.com/', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(comunidade)
+      headers: {
+        Authorization: '187143b7a807b4793b0a303090e947',
+        'Content-Type': 'application/json',
+        Accept: 'application/json'
+      },
+      body: JSON.stringify({
+        query: `query { allScraps {
+            id
+            text
+            user
+            createdAt
+          } }`
+      })
     }).then(async res => {
-      const data = await res.json()
-      const comunidade = data.registroCriado
-      onChange([...comunidades, comunidade])
+      const getScraps = await res.json()
+      const scraps = getScraps.data.allScraps
+      setScraps(scraps)
     })
-  }
+  }, [])
 
   return (
     <section className='actions'>
-      <div className='actionButttons'>
-        <button
-          className={active === 'scrap' ? 'active' : 'actionsButton'}
-          onClick={handleChange('scrap')}
-        >
-          deixar um scrap
-        </button>
-        <button
-          className={active === 'community' ? 'active' : 'actionsButton'}
-          onClick={handleChange('community')}
-        >
-          criar comunidade
-        </button>
-      </div>
-      {active === 'scrap' ? (
-        <div className='scrapBox'>
-          <input
-            name='scrap'
-            placeholder='Qual mensagem você quer deixar?'
-            aria-label='Qual mensagem você quer deixar?'
-            type='text'
-            className='inputScrap'
-          />
-          <button className='orkutButton addScrap'>adicionar</button>
-        </div>
-      ) : (
-        <div className='communityBox'>
-          <form onSubmit={handleCreateCommunity}>
-            <input
-              name='title'
-              placeholder='Qual vai ser o nome da sua comunidade?'
-              aria-label='Qual vai ser o nome da sua comunidade?'
-              type='text'
-            />
-            <input
-              name='image'
-              placeholder='Coloque uma URL para usarmos de capa'
-              aria-label='Coloque uma URL para usarmos de capa'
-            />
-            <button className='orkutButton'>criar comunidade</button>
-          </form>
-        </div>
-      )}
+      <h1>Scraps</h1>
+      <ul>
+        {scraps.length > 0 &&
+          scraps.map(scrap => {
+            return (
+              <li>
+                <div>
+                  <img src={`http://github.com/${scrap.user}.png`} />
+                </div>
+                <div className='scrapInfo'>
+                  <div className='scrapCreated'>
+                    <h2>
+                      <a
+                        href={`https://github.com/${scrap.user}`}
+                        target='_blank'
+                      >
+                        {scrap.user}
+                      </a>
+                    </h2>
+                    <small>
+                      {scrap.createdAt.split('T')[0]} -{' '}
+                      {scrap.createdAt.split('T')[1].replace('Z', '')}
+                    </small>
+                  </div>
+                  <div className='scrapText'>{scrap.text}</div>
+                </div>
+              </li>
+            )
+          })}
+      </ul>
     </section>
   )
 }

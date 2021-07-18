@@ -3,6 +3,7 @@ import nookies from 'nookies'
 import jwt from 'jsonwebtoken'
 import MainGrid from '../src/components/MainGrid'
 import Box from '../src/components/Box'
+import { CreateForm } from '../src/components/CreateForm'
 import { Scraps } from '../src/components/Scraps'
 import { Relations } from '../src/components/Relations'
 import { AlurakutMenu, OrkutNostalgicIconSet } from '../src/lib/AlurakutCommons'
@@ -77,9 +78,13 @@ export default function Home(props) {
         <div className='welcomeArea' style={{ gridArea: 'welcomeArea' }}>
           <Box className='welcomeBox'>
             <h1 className='title'>Bem vindo(a), {githubUser}</h1>
-            <Scraps comunidades={comunidades} onChange={setComunidades} />
+            <CreateForm comunidades={comunidades} onChange={setComunidades} />
             <hr style={{ marginTop: '16px' }} />
-            <OrkutNostalgicIconSet />
+            <OrkutNostalgicIconSet
+              fotos={Math.floor(Math.random() * 10)}
+              videos={Math.floor(Math.random() * 10)}
+              fas={Math.floor(Math.random() * 10)}
+            />
             <hr style={{ marginBottom: '16px' }} />
             <div className='updates'>
               <span>
@@ -89,6 +94,9 @@ export default function Home(props) {
                 <b>Sorte de hoje: </b> O melhor profeta do futuro é o passado.
               </span>
             </div>
+          </Box>
+          <Box className='scrapsBox'>
+            <Scraps />
           </Box>
         </div>
         <div
