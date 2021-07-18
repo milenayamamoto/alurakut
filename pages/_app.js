@@ -12,7 +12,9 @@ const GlobalStyle = createGlobalStyle`
   
   body {
     font-family: sans-serif;
-    background-color: #D9E6F6
+    background: linear-gradient(rgba(61, 122, 204, 0.9), rgba(61, 122, 204, 0.9)), url(/static/images/pokemon-background.jpg);
+}
+
   }
 
   #__next {

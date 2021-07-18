@@ -42,12 +42,20 @@ const MainGrid = styled.main`
     }
     .updates {
       display: flex;
-      flex-direction: column;
-      gap: 18px;
+      flex-direction: row;
       font-family: Verdana;
       font-style: normal;
       font-size: 12px;
       line-height: 15px;
+      justify-content: space-between;
+      div {
+        display: flex;
+        flex-direction: column;
+        gap: 18px;
+      }
+      img {
+        width: 20%;
+      }
     }
   }
   .scrapsBox {

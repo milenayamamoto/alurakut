@@ -73,13 +73,19 @@ export function AlurakutMenu({ githubUser }) {
 }
 AlurakutMenu.Wrapper = styled.header`
   width: 100%;
+  background: #0f2027; /* fallback for old browsers */
+  background: -webkit-linear-gradient(
+    to bottom,
+    #2c5364,
+    #203a43,
+    #0f2027
+  ); /* Chrome 10-25, Safari 5.1-6 */
   background: linear-gradient(
-    180deg,
-    #308bc5 0%,
-    #5c9ecf 30.21%,
-    #5c9ecf 68.23%,
-    #308bc5 100%
-  );
+    to bottom,
+    #2c5364,
+    #203a43,
+    #0f2027
+  ); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
 
   .alurakutMenuProfileSidebar {
     background: white;
@@ -121,13 +127,20 @@ AlurakutMenu.Wrapper = styled.header`
   }
 
   .container {
+    background: #0f2027; /* fallback for old browsers */
+    background: -webkit-linear-gradient(
+      to bottom,
+      #2c5364,
+      #203a43,
+      #0f2027
+    ); /* Chrome 10-25, Safari 5.1-6 */
     background: linear-gradient(
-      180deg,
-      #308bc5 0%,
-      #5c9ecf 30.21%,
-      #5c9ecf 68.23%,
-      #308bc5 100%
-    );
+      to bottom,
+      #2c5364,
+      #203a43,
+      #0f2027
+    ); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+
     padding: 7px 16px;
     max-width: 1110px;
     margin: auto;
@@ -142,7 +155,7 @@ AlurakutMenu.Wrapper = styled.header`
       font-weight: bold;
       font-size: 14px;
       line-height: 17px;
-      color: #2f4a71;
+      color: #6f92bb;
     }
 
     @media (min-width: 860px) {

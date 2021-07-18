@@ -115,12 +115,18 @@ export default function Home(props) {
             />
             <hr style={{ marginBottom: '16px' }} />
             <div className='updates'>
-              <span>
-                <b>Seus visitantes recentes: </b> nenhum
-              </span>
-              <span>
-                <b>Sorte de hoje: </b> O melhor profeta do futuro é o passado.
-              </span>
+              <div>
+                <span>
+                  <b>Seus visitantes recentes: </b> nenhum
+                </span>
+                <span>
+                  <b>Sorte de hoje: </b> O melhor profeta do futuro é o passado.
+                </span>
+              </div>
+              <img
+                src='/static/images/ash-walking.gif'
+                alt='ash andando com o pikachu'
+              />
             </div>
           </Box>
           <Box className='scrapsBox'>

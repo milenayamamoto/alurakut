@@ -54,14 +54,13 @@ export default function LoginScreen() {
           style={{
             position: 'absolute',
             top: '10px',
-            left: '-80px',
-            width: '25%',
+            left: '40px',
+            width: '15%',
             zIndex: 1
           }}
         />
         <section className='logoArea'>
           <img src='https://alurakut.vercel.app/logo.svg' />
-
           <p>
             <strong>Conecte-se</strong> aos seus amigos e familiares usando
             recados e mensagens instantâneas
@@ -74,8 +73,25 @@ export default function LoginScreen() {
             <strong>Compartilhe</strong> seus vídeos, fotos e paixões em um só
             lugar
           </p>
+          <span
+            style={{
+              fontSize: '12px',
+              color: 'var(--colorQuarternary)',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '10px'
+            }}
+          >
+            <strong>Edição</strong>
+            <img
+              src='/static/images/pokemon-logo.png'
+              alt='logo pokemon'
+              style={{
+                marginBottom: 0
+              }}
+            />
+          </span>
         </section>
-
         <section className='formArea'>
           <form className='box' onSubmit={handleSubmit}>
             <p>
@@ -104,7 +120,6 @@ export default function LoginScreen() {
             </p>
           </footer>
         </section>
-
         <footer className='footerArea'>
           <p>
             © 2021 alura.com.br - <a href='/'>Sobre o Orkut.br</a> -{' '}
