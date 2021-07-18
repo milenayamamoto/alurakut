@@ -105,14 +105,13 @@ AlurakutMenu.Wrapper = styled.header`
       margin: auto;
     }
     a {
-      font-size: 18px;
+      font-size: 14px;
     }
     .boxLink {
-      font-size: 18px;
+      font-size: 14px;
       color: #2e7bb4;
       -webkit-text-decoration: none;
       text-decoration: none;
-      font-weight: 800;
     }
 
     hr {

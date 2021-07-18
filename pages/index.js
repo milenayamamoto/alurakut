@@ -79,7 +79,7 @@ export default function Home(props) {
             <Scraps comunidades={comunidades} onChange={setComunidades} />
             <hr style={{ marginTop: '16px' }} />
             <OrkutNostalgicIconSet />
-            <hr style={{ marginBottom: '16px' }}  />
+            <hr style={{ marginBottom: '16px' }} />
             <div className='updates'>
               <span>
                 <b>Seus visitantes recentes: </b> nenhum
@@ -95,11 +95,18 @@ export default function Home(props) {
           style={{ gridArea: 'profileRelationsArea' }}
         >
           <ProfileRelationsBoxWrapper>
-            <Relations title='Pokémons' options={pokemons} />
+            <Relations
+              title='Pokémons'
+              options={pokemons}
+              githubUser={githubUser}
+            />
           </ProfileRelationsBoxWrapper>
-
           <ProfileRelationsBoxWrapper>
-            <Relations title='Comunidades' options={comunidades} />
+            <Relations
+              title='Comunidades'
+              options={comunidades}
+              githubUser={githubUser}
+            />
           </ProfileRelationsBoxWrapper>
         </div>
       </MainGrid>

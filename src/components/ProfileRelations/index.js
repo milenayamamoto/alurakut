@@ -57,5 +57,6 @@ export const ProfileRelationsBoxWrapper = styled(Box)`
     line-height: 17px;
     text-decoration-line: underline;
     color: #2e7bb4;
+    cursor: pointer;
   }
 `

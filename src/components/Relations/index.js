@@ -1,5 +1,7 @@
+import Link from 'next/link'
+
 export function Relations(props) {
-  const { title, options } = props
+  const { title, options, githubUser } = props
 
   const renderRows = itemAtual => {
     switch (title) {
@@ -38,9 +40,20 @@ export function Relations(props) {
           return <li key={itemAtual}>{renderRows(itemAtual)}</li>
         })}
       </ul>
-      <a href='#' className='seeMore'>
-        ver todos
-      </a>
+      {title === 'Comunidades' ? (
+        <Link
+          href={{
+            pathname: '/communities',
+            query: { githubUser }
+          }}
+        >
+          <span className='seeMore'>ver todos</span>
+        </Link>
+      ) : (
+        <a href='#' className='seeMore'>
+          ver todos
+        </a>
+      )}
     </>
   )
 }
