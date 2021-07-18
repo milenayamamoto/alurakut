@@ -5,7 +5,7 @@
 
 > Projeto da [Imersão React da Alura](https://github.com/alura-challenges/alurakut) reconstruíndo o saudoso Orkut.
 >
-> Quer ver como tá ficando? Acessa o deploy no [**VERCEL**](https://alurakut-one-beta.vercel.app/login)
+> Quer ver como tá ficando? Acessa o deploy no [**VERCEL**](https://alurakut-milenayamamoto.vercel.app/login)
 
 <p align="center">
   <img alt="Logo do projeto" src="https://alurakut.vercel.app/logo.svg" />
