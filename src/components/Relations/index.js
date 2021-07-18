@@ -40,20 +40,14 @@ export function Relations(props) {
           return <li key={itemAtual}>{renderRows(itemAtual)}</li>
         })}
       </ul>
-      {title === 'Comunidades' ? (
-        <Link
-          href={{
-            pathname: '/communities',
-            query: { githubUser }
-          }}
-        >
-          <span className='seeMore'>ver todos</span>
-        </Link>
-      ) : (
-        <a href='#' className='seeMore'>
-          ver todos
-        </a>
-      )}
+      <Link
+        href={{
+          pathname: title === 'Comunidades' ? '/communities' : '/pokemon',
+          query: { githubUser }
+        }}
+      >
+        <span className='seeMore'>ver todos</span>
+      </Link>
     </>
   )
 }

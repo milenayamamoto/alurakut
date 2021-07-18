@@ -42,7 +42,23 @@ export default function LoginScreen() {
         justifyContent: 'center'
       }}
     >
-      <div className='loginScreen'>
+      <div
+        className='loginScreen'
+        style={{
+          position: 'relative'
+        }}
+      >
+        <img
+          src='/static/images/pikachu.png'
+          alt='pikachu'
+          style={{
+            position: 'absolute',
+            top: '10px',
+            left: '-80px',
+            width: '25%',
+            zIndex: 1
+          }}
+        />
         <section className='logoArea'>
           <img src='https://alurakut.vercel.app/logo.svg' />
 

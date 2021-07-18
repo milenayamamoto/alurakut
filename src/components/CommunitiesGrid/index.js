@@ -8,6 +8,10 @@ const CommunitiesGrid = styled.main`
   max-width: 500px;
   padding: 16px;
   font-family: Verdana;
+  a {
+    text-decoration: none;
+    color: #6f92bb;
+  }
   .profileArea {
     display: none;
     @media (min-width: 860px) {
@@ -32,6 +36,14 @@ const CommunitiesGrid = styled.main`
     }
     .communitiesList {
       margin-top: 20px;
+      .communityTitle {
+        font-family: Verdana;
+        font-style: normal;
+        font-weight: normal;
+        font-size: 14px;
+        line-height: 17px;
+        color: #2e7bb4;
+      }
     }
     .active {
       padding: 2px 12px;
@@ -51,9 +63,6 @@ const CommunitiesGrid = styled.main`
       font-size: 14px;
       line-height: 17px;
       color: #333333;
-      a {
-        text-decoration: none;
-      }
     }
     ul {
       margin-top: 13px;

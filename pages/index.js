@@ -11,7 +11,8 @@ import { ProfileSidebar } from '../src/components/ProfileSidebar'
 import { useRouter } from 'next/router'
 
 export default function Home(props) {
-  const githubUser = props.githubUser
+  const { githubUser } = props
+  console.log('PROPS', props)
 
   const router = useRouter()
 

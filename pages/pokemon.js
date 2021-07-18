@@ -5,14 +5,14 @@ import { useRouter } from 'next/router'
 import { AlurakutMenu } from '../src/lib/AlurakutCommons'
 import { ProfileSidebar } from '../src/components/ProfileSidebar'
 
-export default function Communities() {
+export default function Pokemon() {
   const router = useRouter()
   const { githubUser } = router.query
 
-  const [comunidades, setComunidades] = React.useState([])
+  const [pokemons, setPokemons] = React.useState([])
 
   React.useEffect(function () {
-    //Get Communities
+    //Get Pokemons
     fetch('https://graphql.datocms.com/', {
       method: 'POST',
       headers: {
@@ -21,17 +21,18 @@ export default function Communities() {
         Accept: 'application/json'
       },
       body: JSON.stringify({
-        query: `query { allCommunities {
-        id
-        title
-        imageUrl
-      } }`
+        query: `query { allPokemons {
+          id
+          name
+          imageUrl
+        } }`
       })
-    }).then(async res => {
-      const getCommunities = await res.json()
-      const comunidade = getCommunities.data.allCommunities
-      setComunidades(comunidade)
     })
+      .then(res => res.json())
+      .then(respostaCompleta => {
+        const data = respostaCompleta.data.allPokemons
+        setPokemons(data)
+      })
   }, [])
 
   return (
@@ -43,19 +44,19 @@ export default function Communities() {
         </div>
         <div>
           <Box className='communitiesBox'>
-            <h1>Minhas Comunidades</h1>
+            <h1>Meus pokémons</h1>
             <span className='breadcrumb'>
               <a href='#' onClick={() => router.back()}>
                 Início
               </a>{' '}
-              &gt; Minhas comunidades
+              &gt; Meus pokémons
             </span>
             <div className='communitiesList'>
-              <button className='active'>comunidades</button>
+              <button className='active'>pokémon</button>
               <div className='menu'>
                 <div>
-                  mostrando <strong>1-{comunidades.length}</strong> de{' '}
-                  <strong>{comunidades.length}</strong>
+                  mostrando <strong>1-{pokemons.length}</strong> de{' '}
+                  <strong>{pokemons.length}</strong>
                 </div>
                 <div>
                   <a href='#'>primeira</a> | <a href='#'> &lt; anterior</a> |{' '}
@@ -63,26 +64,26 @@ export default function Communities() {
                 </div>
               </div>
               <ul>
-                {comunidades.length > 0 &&
-                  comunidades.map(community => {
+                {pokemons.length > 0 &&
+                  pokemons.map(pokemon => {
                     return (
                       <li>
                         <div>
-                          {community.imageUrl ? (
-                            <img src={community.imageUrl} />
+                          {pokemon.imageUrl ? (
+                            <img src={pokemon.imageUrl} />
                           ) : (
                             <img src='https://picsum.photos/300' />
                           )}
                         </div>
-                        <div className='communityTitle'>{community.title}</div>
+                        <div className='communityTitle'>{pokemon.name}</div>
                       </li>
                     )
                   })}
               </ul>
               <div className='menu'>
                 <div>
-                  mostrando <strong>1-{comunidades.length}</strong> de{' '}
-                  <strong>{comunidades.length}</strong>
+                  mostrando <strong>1-{pokemons.length}</strong> de{' '}
+                  <strong>{pokemons.length}</strong>
                 </div>
                 <div>
                   <a href='#'>primeira</a> | <a href='#'> &lt; anterior</a> |{' '}

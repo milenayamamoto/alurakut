@@ -36,9 +36,7 @@ export function AlurakutMenu({ githubUser }) {
         <nav style={{ flex: 1 }}>
           {[
             { name: 'Inicio', slug: '/' },
-            { name: 'Perfil', slug: '/perfil' },
             { name: 'Página de Recados', slug: '/scraps' },
-            { name: 'Amigos', slug: '/friends' },
             { name: 'Comunidades', slug: '/comunidades' }
           ].map(menuItem => (
             <Link
