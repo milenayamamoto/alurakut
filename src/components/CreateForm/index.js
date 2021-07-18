@@ -1,7 +1,7 @@
 import React from 'react'
 
 export function CreateForm(props) {
-  const { comunidades, onChange } = props
+  const { comunidades, scraps, onChangeCommunities, onChangeScraps } = props
   const [active, setActive] = React.useState('scrap')
 
   const handleChange = type => () => {
@@ -24,7 +24,27 @@ export function CreateForm(props) {
     }).then(async res => {
       const data = await res.json()
       const comunidade = data.registroCriado
-      onChange([...comunidades, comunidade])
+      onChangeCommunities([...comunidades, comunidade])
+    })
+  }
+
+  const handleCreateScrap = event => {
+    event.preventDefault()
+    const formData = new FormData(event.target)
+
+    const newScrap = {
+      text: formData.get('scrap'),
+      user: formData.get('user')
+    }
+
+    fetch('/api/scraps', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(newScrap)
+    }).then(async res => {
+      const data = await res.json()
+      const newRegister = data.registroCriado
+      onChangeScraps([...scraps, newRegister])
     })
   }
 
@@ -45,18 +65,25 @@ export function CreateForm(props) {
         </button>
       </div>
       {active === 'scrap' ? (
-        <div className='scrapBox'>
-          <input
-            name='scrap'
-            placeholder='Qual mensagem você quer deixar?'
-            aria-label='Qual mensagem você quer deixar?'
-            type='text'
-            className='inputScrap'
-          />
-          <button className='orkutButton addScrap'>adicionar</button>
+        <div className='addBox'>
+          <form onSubmit={handleCreateScrap}>
+            <input
+              name='scrap'
+              placeholder='Qual mensagem você quer deixar?'
+              aria-label='Qual mensagem você quer deixar?'
+              type='text'
+            />
+            <input
+              name='user'
+              placeholder='Digite seu @github'
+              aria-label='Digite seu @github'
+              type='text'
+            />
+            <button className='orkutButton addScrap'>adicionar</button>
+          </form>
         </div>
       ) : (
-        <div className='communityBox'>
+        <div className='addBox'>
           <form onSubmit={handleCreateCommunity}>
             <input
               name='title'

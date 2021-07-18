@@ -1,31 +1,7 @@
 import React from 'react'
 
-export function Scraps() {
-  const [scraps, setScraps] = React.useState([])
-
-  React.useEffect(function () {
-    //Get Scraps
-    fetch('https://graphql.datocms.com/', {
-      method: 'POST',
-      headers: {
-        Authorization: '187143b7a807b4793b0a303090e947',
-        'Content-Type': 'application/json',
-        Accept: 'application/json'
-      },
-      body: JSON.stringify({
-        query: `query { allScraps {
-            id
-            text
-            user
-            createdAt
-          } }`
-      })
-    }).then(async res => {
-      const getScraps = await res.json()
-      const scraps = getScraps.data.allScraps
-      setScraps(scraps)
-    })
-  }, [])
+export function Scraps(props) {
+  const { scraps } = props
 
   return (
     <section className='actions'>

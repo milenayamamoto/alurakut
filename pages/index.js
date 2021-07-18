@@ -13,12 +13,12 @@ import { useRouter } from 'next/router'
 
 export default function Home(props) {
   const { githubUser } = props
-  console.log('PROPS', props)
 
   const router = useRouter()
 
   const [comunidades, setComunidades] = React.useState([])
   const [pokemons, setPokemons] = React.useState([])
+  const [scraps, setScraps] = React.useState([])
 
   React.useEffect(function () {
     //Redirect to login page if there's no githubUser
@@ -43,6 +43,28 @@ export default function Home(props) {
       const getCommunities = await res.json()
       const comunidade = getCommunities.data.allCommunities
       setComunidades(comunidade)
+    })
+
+    //Get Scraps
+    fetch('https://graphql.datocms.com/', {
+      method: 'POST',
+      headers: {
+        Authorization: '187143b7a807b4793b0a303090e947',
+        'Content-Type': 'application/json',
+        Accept: 'application/json'
+      },
+      body: JSON.stringify({
+        query: `query { allScraps {
+            id
+            text
+            user
+            createdAt
+          } }`
+      })
+    }).then(async res => {
+      const getScraps = await res.json()
+      const scraps = getScraps.data.allScraps
+      setScraps(scraps)
     })
 
     //Get Pokemons
@@ -78,7 +100,12 @@ export default function Home(props) {
         <div className='welcomeArea' style={{ gridArea: 'welcomeArea' }}>
           <Box className='welcomeBox'>
             <h1 className='title'>Bem vindo(a), {githubUser}</h1>
-            <CreateForm comunidades={comunidades} onChange={setComunidades} />
+            <CreateForm
+              comunidades={comunidades}
+              scraps={scraps}
+              onChangeCommunities={setComunidades}
+              onChangeScraps={setScraps}
+            />
             <hr style={{ marginTop: '16px' }} />
             <OrkutNostalgicIconSet
               fotos={Math.floor(Math.random() * 10)}
@@ -96,7 +123,7 @@ export default function Home(props) {
             </div>
           </Box>
           <Box className='scrapsBox'>
-            <Scraps />
+            <Scraps scraps={scraps} />
           </Box>
         </div>
         <div

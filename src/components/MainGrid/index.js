@@ -35,24 +35,7 @@ const MainGrid = styled.main`
         border-radius: 8px 8px 0px 0px;
         color: #fff;
       }
-      .scrapBox {
-        border: 1px solid #f4f4f4;
-        height: 40px;
-        position: relative;
-
-        .inputScrap {
-          background-color: inherit;
-          color: #5a5a5a;
-          border-radius: 0;
-          height: 40px;
-        }
-        .addScrap {
-          position: absolute;
-          left: 450px;
-          top: 9px;
-        }
-      }
-      .communityBox {
+      .addBox {
         border: 1px solid #f4f4f4;
         padding: 15px;
       }
