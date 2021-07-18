@@ -108,6 +108,7 @@ export default function Home(props) {
             />
             <hr style={{ marginTop: '16px' }} />
             <OrkutNostalgicIconSet
+              recados={scraps.length}
               fotos={Math.floor(Math.random() * 10)}
               videos={Math.floor(Math.random() * 10)}
               fas={Math.floor(Math.random() * 10)}
