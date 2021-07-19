@@ -1,7 +1,14 @@
 import React from 'react'
 
 export function CreateForm(props) {
-  const { comunidades, scraps, onChangeCommunities, onChangeScraps } = props
+  const {
+    comunidades,
+    scraps,
+    onChangeCommunities,
+    onChangeScraps,
+    onGetCommunities,
+    onGetScraps
+  } = props
   const [active, setActive] = React.useState('scrap')
 
   const handleChange = type => () => {
@@ -26,6 +33,8 @@ export function CreateForm(props) {
       const comunidade = data.registroCriado
       onChangeCommunities([...comunidades, comunidade])
     })
+    document.getElementById('add-community').reset()
+    setTimeout(() => onGetCommunities(), 4000)
   }
 
   const handleCreateScrap = event => {
@@ -46,6 +55,8 @@ export function CreateForm(props) {
       const newRegister = data.registroCriado
       onChangeScraps([...scraps, newRegister])
     })
+    document.getElementById('add-scrap').reset()
+    setTimeout(() => onGetScraps(), 4000)
   }
 
   return (
@@ -66,7 +77,7 @@ export function CreateForm(props) {
       </div>
       {active === 'scrap' ? (
         <div className='addBox'>
-          <form onSubmit={handleCreateScrap}>
+          <form onSubmit={handleCreateScrap} id='add-scrap'>
             <input
               name='scrap'
               placeholder='Qual mensagem você quer deixar?'
@@ -84,7 +95,7 @@ export function CreateForm(props) {
         </div>
       ) : (
         <div className='addBox'>
-          <form onSubmit={handleCreateCommunity}>
+          <form onSubmit={handleCreateCommunity} id='add-community'>
             <input
               name='title'
               placeholder='Qual vai ser o nome da sua comunidade?'

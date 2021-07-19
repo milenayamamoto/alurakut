@@ -20,11 +20,7 @@ export default function Home(props) {
   const [pokemons, setPokemons] = React.useState([])
   const [scraps, setScraps] = React.useState([])
 
-  React.useEffect(function () {
-    //Redirect to login page if there's no githubUser
-    if (!githubUser.length > 0) return router.push('/login')
-
-    //Get Communities
+  const getCommunities = () => {
     fetch('https://graphql.datocms.com/', {
       method: 'POST',
       headers: {
@@ -34,18 +30,19 @@ export default function Home(props) {
       },
       body: JSON.stringify({
         query: `query { allCommunities {
-        id
-        title
-        imageUrl
-      } }`
+          id
+          title
+          imageUrl
+        } }`
       })
     }).then(async res => {
       const getCommunities = await res.json()
       const comunidade = getCommunities.data.allCommunities
       setComunidades(comunidade)
     })
+  }
 
-    //Get Scraps
+  const getScraps = () => {
     fetch('https://graphql.datocms.com/', {
       method: 'POST',
       headers: {
@@ -66,8 +63,9 @@ export default function Home(props) {
       const scraps = getScraps.data.allScraps
       setScraps(scraps)
     })
+  }
 
-    //Get Pokemons
+  const getPokemons = () => {
     fetch('https://graphql.datocms.com/', {
       method: 'POST',
       headers: {
@@ -88,6 +86,15 @@ export default function Home(props) {
         const data = respostaCompleta.data.allPokemons
         setPokemons(data)
       })
+  }
+
+  React.useEffect(function () {
+    //Redirect to login page if there's no githubUser
+    if (!githubUser.length > 0) return router.push('/login')
+
+    getCommunities()
+    getScraps()
+    getPokemons()
   }, [])
 
   return (
@@ -105,6 +112,8 @@ export default function Home(props) {
               scraps={scraps}
               onChangeCommunities={setComunidades}
               onChangeScraps={setScraps}
+              onGetCommunities={getCommunities}
+              onGetScraps={getScraps}
             />
             <hr style={{ marginTop: '16px' }} />
             <OrkutNostalgicIconSet
