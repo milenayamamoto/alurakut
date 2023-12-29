@@ -375,7 +375,7 @@ OrkutNostalgicIconSet.List = styled.ul`
 // ================================================================================================================
 // Login Page
 // ================================================================================================================
-const AlurakutLoginScreen = css`
+export const AlurakutLoginScreen = css`
   :root {
     --backgroundPrimary: #d9e6f6;
     --backgroundSecondary: #f1f9fe;
