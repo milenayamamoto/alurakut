@@ -30,24 +30,22 @@ export function Relations(props) {
     }
   }
 
-  return (
-    <>
-      <h2 className='smallTitle'>
-        {title} <a href='#'>({options?.length})</a>
-      </h2>
-      <ul>
-        {options.slice(0, 6).map(itemAtual => {
-          return <li key={itemAtual}>{renderRows(itemAtual)}</li>
-        })}
-      </ul>
-      <Link
-        href={{
-          pathname: title === 'Comunidades' ? '/communities' : '/pokemon',
-          query: { githubUser }
-        }}
-      >
-        <span className='seeMore'>ver todos</span>
-      </Link>
-    </>
-  )
+  return <>
+    <h2 className='smallTitle'>
+      {title} <a href='#'>({options?.length})</a>
+    </h2>
+    <ul>
+      {options.slice(0, 6).map((itemAtual,index) => {
+        return <li key={index}>{renderRows(itemAtual)}</li>
+      })}
+    </ul>
+    <Link
+      href={{
+        pathname: title === 'Comunidades' ? '/communities' : '/pokemon',
+        query: { githubUser }
+      }}
+      legacyBehavior>
+      <span className='seeMore'>ver todos</span>
+    </Link>
+  </>;
 }

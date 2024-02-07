@@ -1,4 +1,4 @@
-import React from 'react'
+import { useState, useEffect } from 'react'
 import nookies from 'nookies'
 import jwt from 'jsonwebtoken'
 import MainGrid from '../src/components/MainGrid'
@@ -12,182 +12,182 @@ import { ProfileSidebar } from '../src/components/ProfileSidebar'
 import { useRouter } from 'next/router'
 
 export default function Home(props) {
-  const { githubUser } = props
+	const { githubUser } = props
 
-  const router = useRouter()
+	const router = useRouter()
 
-  const [comunidades, setComunidades] = React.useState([])
-  const [pokemons, setPokemons] = React.useState([])
-  const [scraps, setScraps] = React.useState([])
+	const [comunidades, setComunidades] = useState([])
+	const [pokemons, setPokemons] = useState([])
+	const [scraps, setScraps] = useState([])
 
-  const getCommunities = () => {
-    fetch('https://graphql.datocms.com/', {
-      method: 'POST',
-      headers: {
-        Authorization: '187143b7a807b4793b0a303090e947',
-        'Content-Type': 'application/json',
-        Accept: 'application/json'
-      },
-      body: JSON.stringify({
-        query: `query { allCommunities {
+	const getCommunities = () => {
+		fetch('https://graphql.datocms.com/', {
+			method: 'POST',
+			headers: {
+				Authorization: '187143b7a807b4793b0a303090e947',
+				'Content-Type': 'application/json',
+				Accept: 'application/json',
+			},
+			body: JSON.stringify({
+				query: `query { allCommunities {
           id
           title
           imageUrl
-        } }`
-      })
-    }).then(async res => {
-      const getCommunities = await res.json()
-      const comunidade = getCommunities.data.allCommunities
-      setComunidades(comunidade)
-    })
-  }
+        } }`,
+			}),
+		}).then(async (res) => {
+			const getCommunities = await res.json()
+			const comunidade = getCommunities.data.allCommunities
+			setComunidades(comunidade)
+		})
+	}
 
-  const getScraps = () => {
-    fetch('https://graphql.datocms.com/', {
-      method: 'POST',
-      headers: {
-        Authorization: '187143b7a807b4793b0a303090e947',
-        'Content-Type': 'application/json',
-        Accept: 'application/json'
-      },
-      body: JSON.stringify({
-        query: `query { allScraps {
+	const getScraps = () => {
+		fetch('https://graphql.datocms.com/', {
+			method: 'POST',
+			headers: {
+				Authorization: '187143b7a807b4793b0a303090e947',
+				'Content-Type': 'application/json',
+				Accept: 'application/json',
+			},
+			body: JSON.stringify({
+				query: `query { allScraps {
             id
             text
             user
             createdAt
-          } }`
-      })
-    }).then(async res => {
-      const getScraps = await res.json()
-      const scraps = getScraps.data.allScraps
-      setScraps(scraps)
-    })
-  }
+          } }`,
+			}),
+		}).then(async (res) => {
+			const getScraps = await res.json()
+			const scraps = getScraps.data.allScraps
+			setScraps(scraps)
+		})
+	}
 
-  const getPokemons = () => {
-    fetch('https://graphql.datocms.com/', {
-      method: 'POST',
-      headers: {
-        Authorization: '187143b7a807b4793b0a303090e947',
-        'Content-Type': 'application/json',
-        Accept: 'application/json'
-      },
-      body: JSON.stringify({
-        query: `query { allPokemons {
+	const getPokemons = () => {
+		fetch('https://graphql.datocms.com/', {
+			method: 'POST',
+			headers: {
+				Authorization: '187143b7a807b4793b0a303090e947',
+				'Content-Type': 'application/json',
+				Accept: 'application/json',
+			},
+			body: JSON.stringify({
+				query: `query { allPokemons {
           id
           name
           imageUrl
-        } }`
-      })
-    })
-      .then(res => res.json())
-      .then(respostaCompleta => {
-        const data = respostaCompleta.data.allPokemons
-        setPokemons(data)
-      })
-  }
+        } }`,
+			}),
+		})
+			.then((res) => res.json())
+			.then((respostaCompleta) => {
+				const data = respostaCompleta.data.allPokemons
+				setPokemons(data)
+			})
+	}
 
-  React.useEffect(function () {
-    //Redirect to login page if there's no githubUser
-    if (!githubUser.length > 0) return router.push('/login')
+	useEffect(function () {
+		//Redirect to login page if there's no githubUser
+		if (!githubUser.length > 0) return router.push('/login')
 
-    getCommunities()
-    getScraps()
-    getPokemons()
-  }, [])
+		getCommunities()
+		getScraps()
+		getPokemons()
+	}, [])
 
-  return (
-    <>
-      <AlurakutMenu githubUser={githubUser} />
-      <MainGrid>
-        <div className='profileArea' style={{ gridArea: 'profileArea' }}>
-          <ProfileSidebar githubUser={githubUser} />
-        </div>
-        <div className='welcomeArea' style={{ gridArea: 'welcomeArea' }}>
-          <Box className='welcomeBox'>
-            <h1 className='title'>Bem vindo(a), {githubUser}</h1>
-            <CreateForm
-              comunidades={comunidades}
-              scraps={scraps}
-              onChangeCommunities={setComunidades}
-              onChangeScraps={setScraps}
-              onGetCommunities={getCommunities}
-              onGetScraps={getScraps}
-            />
-            <hr style={{ marginTop: '16px' }} />
-            <OrkutNostalgicIconSet
-              recados={scraps.length}
-              fotos={Math.floor(Math.random() * 10)}
-              videos={Math.floor(Math.random() * 10)}
-              fas={Math.floor(Math.random() * 10)}
-            />
-            <hr style={{ marginBottom: '16px' }} />
-            <div className='updates'>
-              <div>
-                <span>
-                  <b>Seus visitantes recentes: </b> nenhum
-                </span>
-                <span>
-                  <b>Sorte de hoje: </b> O melhor profeta do futuro é o passado.
-                </span>
-              </div>
-              <img
-                src='/static/images/ash-walking.gif'
-                alt='ash andando com o pikachu'
-              />
-            </div>
-          </Box>
-          <Box className='scrapsBox'>
-            <Scraps scraps={scraps} />
-          </Box>
-        </div>
-        <div
-          className='profileRelationsArea'
-          style={{ gridArea: 'profileRelationsArea' }}
-        >
-          <ProfileRelationsBoxWrapper>
-            <Relations
-              title='Pokémons'
-              options={pokemons}
-              githubUser={githubUser}
-            />
-          </ProfileRelationsBoxWrapper>
-          <ProfileRelationsBoxWrapper>
-            <Relations
-              title='Comunidades'
-              options={comunidades}
-              githubUser={githubUser}
-            />
-          </ProfileRelationsBoxWrapper>
-        </div>
-      </MainGrid>
-    </>
-  )
+	return (
+		<>
+			<AlurakutMenu githubUser={githubUser} />
+			<MainGrid>
+				<div className='profileArea' style={{ gridArea: 'profileArea' }}>
+					<ProfileSidebar githubUser={githubUser} />
+				</div>
+				<div className='welcomeArea' style={{ gridArea: 'welcomeArea' }}>
+					<Box className='welcomeBox'>
+						<h1 className='title'>Bem vindo(a), {githubUser}</h1>
+						<CreateForm
+							comunidades={comunidades}
+							scraps={scraps}
+							onChangeCommunities={setComunidades}
+							onChangeScraps={setScraps}
+							onGetCommunities={getCommunities}
+							onGetScraps={getScraps}
+						/>
+						<hr style={{ marginTop: '16px' }} />
+						<OrkutNostalgicIconSet
+							recados={scraps.length}
+							fotos={Math.floor(Math.random() * 10)}
+							videos={Math.floor(Math.random() * 10)}
+							fas={Math.floor(Math.random() * 10)}
+						/>
+						<hr style={{ marginBottom: '16px' }} />
+						<div className='updates'>
+							<div>
+								<span>
+									<b>Seus visitantes recentes: </b> nenhum
+								</span>
+								<span>
+									<b>Sorte de hoje: </b> O melhor profeta do futuro é o passado.
+								</span>
+							</div>
+							<img
+								src='/static/images/ash-walking.gif'
+								alt='ash andando com o pikachu'
+							/>
+						</div>
+					</Box>
+					<Box className='scrapsBox'>
+						<Scraps scraps={scraps} />
+					</Box>
+				</div>
+				<div
+					className='profileRelationsArea'
+					style={{ gridArea: 'profileRelationsArea' }}
+				>
+					<ProfileRelationsBoxWrapper>
+						<Relations
+							title='Pokémons'
+							options={pokemons}
+							githubUser={githubUser}
+						/>
+					</ProfileRelationsBoxWrapper>
+					<ProfileRelationsBoxWrapper>
+						<Relations
+							title='Comunidades'
+							options={comunidades}
+							githubUser={githubUser}
+						/>
+					</ProfileRelationsBoxWrapper>
+				</div>
+			</MainGrid>
+		</>
+	)
 }
 
 export async function getServerSideProps(context) {
-  const token = nookies.get(context)?.USER_TOKEN
+	const token = nookies.get(context)?.USER_TOKEN
 
-  const { isAuthenticated } = await fetch(
-    'https://alurakut.vercel.app/api/auth',
-    { headers: { Authorization: token } }
-  ).then(res => res.json())
+	const { isAuthenticated } = await fetch(
+		'https://alurakut.vercel.app/api/auth',
+		{ headers: { Authorization: token } }
+	).then((res) => res.json())
 
-  if (!isAuthenticated) {
-    return {
-      redirect: {
-        destination: '/login',
-        permanent: false
-      }
-    }
-  }
+	if (!isAuthenticated) {
+		return {
+			redirect: {
+				destination: '/login',
+				permanent: false,
+			},
+		}
+	}
 
-  const { githubUser } = jwt.decode(token)
+	const { githubUser } = jwt.decode(token)
 
-  return {
-    props: {
-      githubUser
-    }
-  }
+	return {
+		props: {
+			githubUser,
+		},
+	}
 }

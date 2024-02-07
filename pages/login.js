@@ -1,11 +1,11 @@
-import React from 'react'
+import { useState } from 'react'
 // Hook do NextJS
 import { useRouter } from 'next/router'
 import nookies from 'nookies'
 
 export default function LoginScreen() {
 	const router = useRouter()
-	const [githubUser, setGithubUser] = React.useState('')
+	const [githubUser, setGithubUser] = useState('')
 
 	const handleSubmit = (event) => {
 		event.preventDefault()
@@ -122,7 +122,7 @@ export default function LoginScreen() {
 				</section>
 				<footer className='footerArea'>
 					<p>
-						© 2021 alura.com.br - <a href='/'>Sobre o Orkut.br</a> -{' '}
+						© 2021 - <a href='/'>Sobre o Orkut.br</a> -{' '}
 						<a href='/'>Centro de segurança</a> - <a href='/'>Privacidade</a> -{' '}
 						<a href='/'>Termos</a> - <a href='/'>Contato</a>
 					</p>
