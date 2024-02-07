@@ -2,7 +2,7 @@ import { SiteClient } from 'datocms-client'
 
 export default async function getCommunities(req, res) {
   if (req.method === 'POST') {
-    const TOKEN = '2cc01ee5671837d59aeee6c8e2d51b'
+    const TOKEN = process.env.DATO_CMS
     const client = new SiteClient(TOKEN)
 
     const newRecord = await client.items.create({
